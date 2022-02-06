@@ -1,0 +1,109 @@
+import math
+class bold:
+  bold = "\033[1m"
+  end = "\033[0m"
+
+######################################################### Inputs #################################################################### 
+print(bold.bold + "Chose from 1 to 5 calculation options (CPT): " + bold.end + "\n  1.Present value - PV \n  2.Future value - FV \n  3.Payments - PMT \n  4.Number of periods - N \n  5.Percentage yield - I/Y" + bold.bold + "\nInput a number below:" + bold.end)
+CPT = str(input())
+print("\nThe variable you are looking for could be any number, you may put a zero.")
+print(bold.bold + "You are calculating for: "+str(CPT) + bold.end)
+
+print("\nEnter N:")
+N = int(input())
+print(bold.bold + "Your N input is "+str(N) + bold.end)
+
+print("\nEnter FV:")
+FV = float(input())
+print(bold.bold + "Your FV input is "+str(FV) + bold.end)
+
+print("\nEnter PMT:")
+PMT = float(input())
+print(bold.bold + "Your PMT input is "+str(PMT) + bold.end)
+
+print("\nEnter I/Y in decimals:")
+IY = float(input())
+print(bold.bold + "Your I/Y input is "+str(IY) + bold.end)
+
+print("\nEnter PV:")
+PV = float(input())
+print(bold.bold + "Your PV input is "+str(PV) + bold.end)
+
+####################################################### Calculating PV ############################################################### 
+if CPT == str(1):
+  z = 0
+  for i in range(N):
+    k = PMT/((1+IY)**(i+1))
+    z = z + k
+  print("\nPV of PMT = "+str(round(z,2)))
+  f = FV/((1+IY)**(len(range(N))))
+  print("Present value is equal to "+str(round(f-z,2)))
+
+######################################################## Calculating FV ###############################################################
+elif CPT == str(2):
+  PMT_FV_SUM = 0
+  for i in range(N):
+    pmnt = PMT*((1+IY)**(i))
+    PMT_FV_SUM += pmnt
+  PV_FV = PV*((1+IY)**len(range(N)))
+  PV_PMT_SUM = PMT_FV_SUM+PV_FV
+  print("\nFuture value is equal to = " + str(round(PV_PMT_SUM,2)))
+
+######################################################## Calculating PMT ############################################################## 
+elif CPT == str(3):
+  pp = 0 
+  PMT_PV_Sum = 0
+  PV_e = FV/((1+IY)**N) - PMT_PV_Sum
+  while PV_e != PV and PV_e > PV:
+    b = 0
+    for i in range(N):
+      PMT_PV_Sum = pp/((1+IY)**(i+1))
+      b = b + PMT_PV_Sum
+    PV_e = FV/((1+IY)**N) - b 
+    if PV_e != PV and PV_e > PV:
+      PV_e = FV/((1+IY)**N) - b
+      pp += 5
+      PMT_PV_Sum = PMT_PV_Sum * 0
+    else:
+      print("\nThe payments in the period are equal to: ", round(pp,4))
+
+################################################## Calculating N with PMT ############################################################
+elif CPT == str(4):
+  t = 0 
+  PMT_PV_Sum = 0
+  PV_e = FV/((1+IY)**t) - PMT_PV_Sum
+  while PV_e != PV and PV_e > PV:
+    b = 0
+    for i in range(t):
+      PMT_PV_Sum = PMT/((1+IY)**(i+1))
+      b = b + PMT_PV_Sum
+    PV_e = FV/((1+IY)**t) - b 
+    if PV_e != PV and PV_e > PV:
+      PV_e = FV/((1+IY)**t) - b
+      t += 1
+      PMT_PV_Sum = PMT_PV_Sum * 0
+    else:
+      print("\nNumber of periods is: ", t)
+      print("PMT_PV_Sum: ", PMT_PV_Sum)
+
+################################################## Calculating I/Y with PMT ############################################################
+elif CPT == str(5):
+  ii = 0 
+  PMT_PV_Sum = 0
+  PV_e = FV/((1+ii)**N) - PMT_PV_Sum
+  while PV_e != PV and PV_e > PV:
+    b = 0
+    for i in range(N):
+      PMT_PV_Sum = PMT/((1+ii)**(i+1))
+      b = b + PMT_PV_Sum
+    PV_e = FV/((1+ii)**N) - b 
+    if PV_e != PV and PV_e > PV:
+      PV_e = FV/((1+ii)**N) - b
+      ii += 0.001
+      PMT_PV_Sum = PMT_PV_Sum * 0
+    else:
+      print("\nThe yield is: ", round(ii,4))
+
+####################################################### Error Message ##################################################################
+else:
+  print(bold.bold + "\nPlease enter a valid input from 1 to 5" + bold.end)
